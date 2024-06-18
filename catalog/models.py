@@ -29,7 +29,7 @@ class Product(models.Model):
         help_text="Описание продукта",
     )
     Image = models.ImageField(
-        upload_to="/products",
+        upload_to="products/",
         verbose_name="Изображение (превью)",
         null=True,
         blank=True,
