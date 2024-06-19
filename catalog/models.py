@@ -55,6 +55,12 @@ class Product(models.Model):
         auto_now=True,
         verbose_name="Дата последнего изменения (записи в БД)",
     )
+    manufactured_at = models.DateTimeField(
+        verbose_name="Дата производства продукта",
+        help_text='Введите дату производства продукта',
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return f"{self.name} - {self.purchase_price}"
