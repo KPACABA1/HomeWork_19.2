@@ -35,7 +35,7 @@ class Product(models.Model):
         blank=True,
         help_text="Изображение продукта",
     )
-    Category = models.ForeignKey(
+    category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,
         verbose_name="Категория",
@@ -54,12 +54,6 @@ class Product(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True,
         verbose_name="Дата последнего изменения (записи в БД)",
-    )
-    manufactured_at = models.DateTimeField(
-        verbose_name="Дата производства продукта",
-        help_text='Введите дату производства продукта',
-        blank=True,
-        null=True,
     )
 
     def __str__(self):
