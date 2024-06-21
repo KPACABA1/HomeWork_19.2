@@ -4,10 +4,10 @@ from django.db import models
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(
-        max_length=50, verbose_name="Наименование", help_text="Наименование продукта"
+        max_length=50, verbose_name="Наименование", help_text="Наименование продукта",
     )
-    Description = models.TextField(
-        verbose_name="Описание", help_text="Описание продукта"
+    description = models.TextField(
+        verbose_name="Описание", help_text="Описание продукта", null=True, blank=True,
     )
 
     def __str__(self):
@@ -24,11 +24,13 @@ class Product(models.Model):
         verbose_name="Наименование",
         help_text="Наименование продукта",
     )
-    Description = models.TextField(
+    description = models.TextField(
         verbose_name="Описание",
         help_text="Описание продукта",
+        null=True,
+        blank=True,
     )
-    Image = models.ImageField(
+    image = models.ImageField(
         upload_to="products/",
         verbose_name="Изображение (превью)",
         null=True,
