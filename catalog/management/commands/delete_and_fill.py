@@ -34,10 +34,9 @@ class Command(BaseCommand):
                 # Переделываю данные в список и заношу их в таблицу Product
                 product_fill = []
                 for product in product_from_db:
-                    print(product[7])
                     i = {'id': product[0], 'name': product[1], 'description': product[2], 'image': product[3],
                          'purchase_price': product[4], 'created_at': product[5], 'updated_at': product[6],
-                         'category': product[7]}
+                         'category': Category.objects.get(pk=product[7])}
                     product_fill.append(Product(**i))
                 Product.objects.bulk_create(product_fill)
         conn.close()
