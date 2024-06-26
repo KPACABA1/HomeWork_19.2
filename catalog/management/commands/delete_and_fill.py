@@ -1,22 +1,17 @@
 import psycopg2
 from django.core.management import BaseCommand
 
+import json
+
 from catalog.models import Category, Product
 
 
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        # Не знаю надо или нет, но создаю подключение к базе данных
+        # Создаю подключение к базе данных
         with psycopg2.connect(database='homework_20_1', user='postgres', password='mr34mr58') as conn:
             with conn.cursor() as cur:
-                # Вывожу и записываю данные из Category
-                cur.execute('SELECT * FROM catalog_category')
-                category_from_db = cur.fetchall()
-
-                # Вывожу и записываю данные из Product
-                cur.execute('SELECT * FROM catalog_product')
-                product_from_db = cur.fetchall()
 
                 # Удаляю данные из таблицы Category и Product
                 cur.execute('TRUNCATE TABLE catalog_product RESTART IDENTITY')
@@ -24,19 +19,26 @@ class Command(BaseCommand):
                 cur.execute('TRUNCATE TABLE catalog_category RESTART IDENTITY CASCADE')
                 conn.commit()
 
-                # Переделываю данные в список и заношу их в таблицу Category
-                category_fill = []
-                for category in category_from_db:
-                    i = {'id': category[0], 'name': category[1], 'description': category[2]}
-                    category_fill.append(Category(**i))
-                Category.objects.bulk_create(category_fill)
+                # открываю соединение с файлом, в котором находятся все данные о категориях и продуктах
+                with open('catalog.json', 'r', encoding='utf-8') as info_json:
+                    info_python = json.load(info_json)
 
-                # Переделываю данные в список и заношу их в таблицу Product
-                product_fill = []
-                for product in product_from_db:
-                    i = {'id': product[0], 'name': product[1], 'description': product[2], 'image': product[3],
-                         'purchase_price': product[4], 'created_at': product[5], 'updated_at': product[6],
-                         'category': Category.objects.get(pk=product[7])}
-                    product_fill.append(Product(**i))
-                Product.objects.bulk_create(product_fill)
-        conn.close()
+                    # создаю категории
+                    category_fill = []
+                    product_fill = []
+                    for c in info_python:
+                        if c['model'] == 'catalog.category':
+                            category_fill.append(Category(**c['fields']))
+                    Category.objects.bulk_create(category_fill)
+
+                    # Создаю продукты
+                    id_ = 1
+                    for c in info_python:
+                        if c['model'] == 'catalog.product':
+                            i = {'id': id_, 'name': c['fields']['name'], 'description': c['fields']['description'],
+                                 'image': c['fields']['image'], 'purchase_price': c['fields']['purchase_price'],
+                                 'created_at': c['fields']['created_at'], 'updated_at': c['fields']['updated_at'],
+                                 'category': Category.objects.get(pk=c['fields']['category'])}
+                            id_ += 1
+                            product_fill.append(Product(**i))
+                    Product.objects.bulk_create(product_fill)
