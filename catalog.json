@@ -3,42 +3,42 @@
   "model": "catalog.category",
   "pk": 1,
   "fields": {
-    "name": "огурец",
-    "description": "123"
+    "name": "Овощи",
+    "description": "Свежие овощи прямо с грядки"
   }
 },
 {
   "model": "catalog.category",
   "pk": 2,
   "fields": {
-    "name": "помидор",
-    "description": "123"
+    "name": "Рыба",
+    "description": "Свежая рыба с тихого океана"
   }
 },
 {
   "model": "catalog.product",
   "pk": 1,
   "fields": {
-    "name": "огурец",
-    "description": "123",
-    "image": "",
+    "name": "Огурцы",
+    "description": "Свежие огурцы прямо с грядки",
+    "image": "products/ogurtsy.1_f.jpg",
     "category": 1,
-    "purchase_price": 123,
-    "created_at": "2024-06-26T10:28:26.602Z",
-    "updated_at": "2024-06-26T10:28:26.602Z"
+    "purchase_price": 60,
+    "created_at": "2024-06-26T17:44:51.663Z",
+    "updated_at": "2024-06-26T17:44:51.663Z"
   }
 },
 {
   "model": "catalog.product",
   "pk": 2,
   "fields": {
-    "name": "помидор",
-    "description": "помидор",
-    "image": "",
+    "name": "Рыбка для запекания",
+    "description": "Идеально для запекания",
+    "image": "products/1663831415_5-mykaleidoscope-ru-p-krasivaya-podacha-ribi-yeda-vkontakte-5.jpg",
     "category": 2,
-    "purchase_price": 123,
-    "created_at": "2024-06-26T10:28:26.602Z",
-    "updated_at": "2024-06-26T10:28:26.602Z"
+    "purchase_price": 80,
+    "created_at": "2024-06-26T17:46:15.337Z",
+    "updated_at": "2024-06-26T17:46:15.337Z"
   }
 }
 ]
