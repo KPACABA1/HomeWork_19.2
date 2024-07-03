@@ -1,13 +1,17 @@
 from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView
 
 from catalog.models import Product
 
 
 # Create your views here.
-def index(request):
-    products = Product.objects.all()
-    context = {'products': products}
-    return render(request, 'index.html', context)
+class IndexListView(ListView):
+    model = Product
+
+# def index(request):
+#     products = Product.objects.all()
+#     context = {'products': products}
+#     return render(request, 'index.html', context)
 
 
 def contacts(request):
@@ -17,6 +21,7 @@ def contacts(request):
         message = request.POST.get('message')
         print(f'Имя -{name}, телефон - {phone}, сообщение - {message}')
     return render(request, 'contacts.html')
+
 
 def info_product(request, pk):
     product = get_object_or_404(Product, pk=pk)

@@ -1,7 +1,8 @@
-{% extends 'basic_template.html' %}
+{% extends 'catalog/basic_template.html' %}
 {% load my_tags %}
 {% block content %}
 <div class="row text-center">
+    {% for product in object_list %}
     <div class="col-3">
         <div class="card mb-4 box-shadow">
             <div class="card-header">
@@ -14,8 +15,10 @@
                     <li>{{ product.category }}</li>
                     <li>{{ product.description | truncatechars:100 }}</li>
                 </ul>
-                <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
+                <a class="p-2 btn btn-outline-primary">Купить</a>
+                <a class="p-2 btn btn-outline-primary" href="/info_product/{{ product.id }}/">О товаре</a>
             </div>
         </div>
     </div>
-    {% endblock %}
+    {% endfor %}
+{% endblock %}
