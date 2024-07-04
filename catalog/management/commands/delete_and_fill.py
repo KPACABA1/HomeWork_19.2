@@ -34,7 +34,7 @@ class Command(BaseCommand):
                     # Создаю продукты
                     id_ = 1
                     for c in info_python:
-                        if c['model'] == 'catalog.product':
+                        if c['model'] == 'catalog.catalog':
                             i = {'id': id_, 'name': c['fields']['name'], 'description': c['fields']['description'],
                                  'image': c['fields']['image'], 'purchase_price': c['fields']['purchase_price'],
                                  'created_at': c['fields']['created_at'], 'updated_at': c['fields']['updated_at'],

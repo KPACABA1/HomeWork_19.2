@@ -16,17 +16,17 @@ class Migration(migrations.Migration):
             new_name="description",
         ),
         migrations.RenameField(
-            model_name="product",
+            model_name="catalog",
             old_name="Category",
             new_name="category",
         ),
         migrations.RenameField(
-            model_name="product",
+            model_name="catalog",
             old_name="Description",
             new_name="description",
         ),
         migrations.RenameField(
-            model_name="product",
+            model_name="catalog",
             old_name="Image",
             new_name="image",
         ),

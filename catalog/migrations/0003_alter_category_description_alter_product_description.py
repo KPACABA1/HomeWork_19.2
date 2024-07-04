@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AlterField(
-            model_name="product",
+            model_name="catalog",
             name="description",
             field=models.TextField(
                 blank=True,

@@ -2,12 +2,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from catalog.apps import CatalogConfig
-from catalog.views import IndexListView, contacts, info_product
+from catalog.views import ProductListView, contacts, ProductDetailView
 
 app_name = CatalogConfig.name
 
 urlpatterns = [
-    path('', IndexListView.as_view(), name='index'),
+    path('', ProductListView.as_view(), name='product_list'),
     path('contacts/', contacts, name='contacts'),
-    path('info_product/<int:pk>/', info_product, name='info_product'),
+    path('info_product/<int:pk>/', ProductDetailView.as_view(), name='info_product'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
