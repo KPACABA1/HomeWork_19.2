@@ -7,7 +7,7 @@ class Category(models.Model):
         max_length=50, verbose_name="Наименование", help_text="Наименование продукта",
     )
     description = models.TextField(
-        verbose_name="Описание", help_text="Описание продукта", null=True, blank=True,
+        verbose_name="Описание", help_text="Описание категории", null=True, blank=True,
     )
 
     def __str__(self):
@@ -32,7 +32,7 @@ class Product(models.Model):
     )
     image = models.ImageField(
         upload_to="products/",
-        verbose_name="Изображение (превью)",
+        verbose_name="Изображение(превью)",
         null=True,
         blank=True,
         help_text="Изображение продукта",
