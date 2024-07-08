@@ -17,5 +17,5 @@ class Records(models.Model):
         return self.heading
 
     class Meta:
-        verbose_name = 'блоговой запись'
+        verbose_name = 'блоговая запись'
         verbose_name_plural = 'блоговые записи'
