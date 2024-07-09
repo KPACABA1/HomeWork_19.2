@@ -5,4 +5,4 @@ tzdata==2024.1
 psycopg2-binary==2.9.9
 pillow==10.3.0
 black==24.4.2
-ipypthon==8.25.0
+ipython==8.25.0

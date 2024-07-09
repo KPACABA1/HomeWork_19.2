@@ -19,26 +19,26 @@ class Command(BaseCommand):
                 cur.execute('TRUNCATE TABLE catalog_category RESTART IDENTITY CASCADE')
                 conn.commit()
 
-                # открываю соединение с файлом, в котором находятся все данные о категориях и продуктах
-                with open('catalog.json', 'r', encoding='utf-8') as info_json:
-                    info_python = json.load(info_json)
+        # открываю соединение с файлом, в котором находятся все данные о категориях и продуктах
+        with open('catalog.json', 'r', encoding='utf-8') as info_json:
+            info_python = json.load(info_json)
 
-                    # создаю категории
-                    category_fill = []
-                    product_fill = []
-                    for c in info_python:
-                        if c['model'] == 'catalog.category':
-                            category_fill.append(Category(**c['fields']))
-                    Category.objects.bulk_create(category_fill)
+            # создаю категории
+            category_fill = []
+            product_fill = []
+            for c in info_python:
+                if c['model'] == 'catalog.category':
+                    category_fill.append(Category(**c['fields']))
+            Category.objects.bulk_create(category_fill)
 
-                    # Создаю продукты
-                    id_ = 1
-                    for c in info_python:
-                        if c['model'] == 'catalog.catalog':
-                            i = {'id': id_, 'name': c['fields']['name'], 'description': c['fields']['description'],
-                                 'image': c['fields']['image'], 'purchase_price': c['fields']['purchase_price'],
-                                 'created_at': c['fields']['created_at'], 'updated_at': c['fields']['updated_at'],
-                                 'category': Category.objects.get(pk=c['fields']['category'])}
-                            id_ += 1
-                            product_fill.append(Product(**i))
-                    Product.objects.bulk_create(product_fill)
+            # Создаю продукты
+            id_ = 1
+            for c in info_python:
+                if c['model'] == 'catalog.product':
+                    i = {'id': id_, 'name': c['fields']['name'], 'description': c['fields']['description'],
+                            'image': c['fields']['image'], 'purchase_price': c['fields']['purchase_price'],
+                            'created_at': c['fields']['created_at'], 'updated_at': c['fields']['updated_at'],
+                            'category': Category.objects.get(pk=c['fields']['category'])}
+                    id_ += 1
+                    product_fill.append(Product(**i))
+            Product.objects.bulk_create(product_fill)
