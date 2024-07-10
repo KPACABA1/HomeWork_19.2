@@ -17,15 +17,18 @@ class RecordDetailView(DetailView):
 # Класс-контроллер для создания записи
 class RecordCreateView(CreateView):
     model = Records
-    fields = ('heading', 'content',)
-    success_url = reverse_lazy('catalog:product_list')
+    fields = ('heading', 'content', 'preview',)
+    success_url = reverse_lazy('record:record_list')
 
 
 # Класс-контроллер для редактирования записи
 class RecordUpdateView(UpdateView):
     model = Records
+    fields = ('heading', 'content', 'preview',)
+    success_url = reverse_lazy('record:record_list')
 
 
 # Класс-контроллер для удаления записи
 class RecordDeleteView(DeleteView):
     model = Records
+    success_url = reverse_lazy('record:record_list')

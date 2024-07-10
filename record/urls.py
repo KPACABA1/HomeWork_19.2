@@ -6,8 +6,8 @@ app_name = RecordConfig.name
 
 urlpatterns = [
     path('list/', RecordListView.as_view(), name='record_list'),
-    # path('detail/<int:pk>/', RecordDetailView.as_view(), name='detail'),
+    path('view/<int:pk>/', RecordDetailView.as_view(), name='view'),
     path('create/', RecordCreateView.as_view(), name='record_create'),
-    # path('update/<int:pk>/', RecordUpdateView.as_view(), name='update'),
-    # path('delete/<int:pk>/', RecordDeleteView.as_view(), name='delete'),
+    path('edit/<int:pk>/', RecordUpdateView.as_view(), name='edit'),
+    path('delete/<int:pk>/', RecordDeleteView.as_view(), name='delete'),
 ]
