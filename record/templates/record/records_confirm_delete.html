@@ -4,24 +4,25 @@
 <div class="row text-center">
     <div class="col-3">
         <div class="card mb-4 box-shadow">
-            {% csrf_token %}
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">{{ object.heading }}</h4>
-            </div>
-            <div class="card-body">
-                <h1 class="card-title pricing-card-title">{{ object.content }}</h1>
-                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                    <li>{{ object.date_creation }}</li>
-                    {% if object.sign_of_publication %}
-                    <li>Опубликовано</li>
-                    {% else %}
-                    <li>Не опубликовано</li>
-                    {% endif %}
-                </ul>
-                <button type="submit" class="btn btn-success">Удалить</button>
-                <a class="p-2 btn btn-outline-primary" href="/record/list/">Отмена</a>
-
-            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ object.heading }}</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">{{ object.content }}</h1>
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li>{{ object.date_creation }}</li>
+                        {% if object.sign_of_publication %}
+                        <li>Опубликовано</li>
+                        {% else %}
+                        <li>Не опубликовано</li>
+                        {% endif %}
+                    </ul>
+                    <button type="submit" class="btn btn-success">Удалить</button>
+                    <a class="p-2 btn btn-outline-primary" href="/record/list/">Отмена</a>
+            </form>
         </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}
