@@ -4,8 +4,8 @@
 <div class="row text-center">
     <div class="col-3">
         <div class="card mb-4 box-shadow">
+            {% csrf_token %}
             <div class="card-header">
-                {% csrf_token %}
                 <h4 class="my-0 font-weight-normal">{{ object.heading }}</h4>
             </div>
             <div class="card-body">
@@ -18,7 +18,9 @@
                     <li>Не опубликовано</li>
                     {% endif %}
                 </ul>
-                <button type="submit" class="btn btn-danger">Удалить</button>
+                <button type="submit" class="btn btn-success">Удалить</button>
+                <a class="p-2 btn btn-outline-primary" href="/record/list/">Отмена</a>
+
             </div>
         </div>
     </div>

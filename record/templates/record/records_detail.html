@@ -8,6 +8,7 @@
                 <h4 class="my-0 font-weight-normal">{{ object.heading }}</h4>
             </div>
             <div class="card-body">
+                <img src="{{ record.preview | media_filter }}" width="260" height="200">
                 <h1 class="card-title pricing-card-title">{{ object.content }}</h1>
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                     <li>{{ object.date_creation }}</li>
