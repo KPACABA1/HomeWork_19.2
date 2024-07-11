@@ -4,6 +4,9 @@ from pytils.translit import slugify
 
 from record.models import Records
 
+from django.core.mail import send_mail
+
+
 
 # Класс-контроллер для вывода всех записей
 class RecordListView(ListView):
@@ -19,10 +22,20 @@ class RecordListView(ListView):
 class RecordDetailView(DetailView):
     model = Records
 
+    def send_mail(self):
+        send_mail(subject='Тема письма',
+            message='Ваша статья достигла 100 просмотров!',
+            from_email="ваша почта",
+            recipient_list=["ваша почта"],
+        )
+
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
         self.object.number_of_views += 1
         self.object.save()
+
+        if self.object.number_of_views >= 100:
+            self.send_mail()
         return self.object
 
 

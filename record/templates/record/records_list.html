@@ -9,11 +9,9 @@
                 <h4 class="my-0 font-weight-normal">{{ record.heading }}</h4>
             </div>
             <div class="card-body">
-                <h1 class="card-title pricing-card-title">{{ record.content }}</h1>
                 <img src="{{ record.preview | media_filter }}" width="260" height="200">
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                    <li>{{ record.sign_of_publication }}</li>
-                    <li>{{ record.sign_of_publication }}</li>
+                    <li>{{ record.content }}</li>
                 </ul>
                 <a class="p-2 btn btn-outline-primary" href="{% url 'record:view' record.pk %}">Посмотреть</a>
                 <a class="p-2 btn btn-outline-primary" href="{% url 'record:edit' record.pk %}">Редактировать</a>
