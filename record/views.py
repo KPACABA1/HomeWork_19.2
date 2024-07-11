@@ -22,11 +22,12 @@ class RecordListView(ListView):
 class RecordDetailView(DetailView):
     model = Records
 
-    def send_mail(self):
+    @staticmethod
+    def send_mail():
         send_mail(subject='Тема письма',
             message='Ваша статья достигла 100 просмотров!',
-            from_email="ваша почта",
-            recipient_list=["ваша почта"],
+            from_email="Ваша_почта",
+            recipient_list=["Ваша_почта"],
         )
 
     def get_object(self, queryset=None):
