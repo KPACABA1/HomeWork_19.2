@@ -26,14 +26,14 @@ class RecordDetailView(DetailView):
     def send_mail():
         send_mail(subject='Тема письма',
             message='Ваша статья достигла 100 просмотров!',
-            from_email="Ваша_почта",
-            recipient_list=["Ваша_почта"],
+            from_email="groninger.official@yandex.ru",
+            recipient_list=["groninger.official@yandex.ru"],
         )
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
         self.object.number_of_views += 1
-        self.object.save()
+        self.object.save(update_fields=['number_of_views'])
 
         if self.object.number_of_views >= 100:
             self.send_mail()
