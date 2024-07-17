@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
+# Импортирую данные для входа в почту и данные для входа в базу данных
+from env.data import mail, password_mail, name_database, password_database, user_database
+
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -79,9 +84,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'homework_20_1',
-        'USER': 'postgres',
-        'PASSWORD': 'mr34mr58'
+        'NAME': name_database,
+        'USER': user_database,
+        'PASSWORD': password_database
     }
 }
 
@@ -137,5 +142,5 @@ EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-EMAIL_HOST_USER = 'groninger.official@yandex.ru'
-EMAIL_HOST_PASSWORD = 'soxgqodqjdychjzr'
+EMAIL_HOST_USER = mail
+EMAIL_HOST_PASSWORD = password_mail

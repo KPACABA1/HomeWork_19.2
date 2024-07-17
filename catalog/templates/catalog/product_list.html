@@ -6,7 +6,7 @@
     <div class="col-3">
         <div class="card mb-4 box-shadow">
             <div class="card-header">
-                <img src="{{ product.image | media_filter }}" width="260" height="200">
+                <img src="{{ product.image | media_filter }}" width="220" height="200">
                 <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
             </div>
             <div class="card-body">
@@ -17,8 +17,13 @@
                 </ul>
                 <a class="p-2 btn btn-outline-primary">Купить</a>
                 <a class="p-2 btn btn-outline-primary" href="/info_product/{{ product.id }}/">О товаре</a>
+                <a class="p-2 btn btn-outline-primary" href="/edit/{{ product.id }}/">Редактировать</a>
+                <a class="p-2 btn btn-outline-primary" href="/delete/{{ product.id }}/">Удалить</a>
             </div>
         </div>
     </div>
     {% endfor %}
+    <p>
+        <a class="p-2 btn btn-outline-primary" href="/create/">Создать новый продукт</a>
+    </p>
 {% endblock %}

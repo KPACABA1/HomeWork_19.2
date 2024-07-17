@@ -6,6 +6,8 @@ from record.models import Records
 
 from django.core.mail import send_mail
 
+# Импортирую данные почты для отправки письма
+from env.data import mail
 
 
 # Класс-контроллер для вывода всех записей
@@ -26,8 +28,8 @@ class RecordDetailView(DetailView):
     def send_mail():
         send_mail(subject='Тема письма',
             message='Ваша статья достигла 100 просмотров!',
-            from_email="groninger.official@yandex.ru",
-            recipient_list=["groninger.official@yandex.ru"],
+            from_email=mail,
+            recipient_list=[mail],
         )
 
     def get_object(self, queryset=None):
@@ -43,7 +45,7 @@ class RecordDetailView(DetailView):
 # Класс-контроллер для создания записи
 class RecordCreateView(CreateView):
     model = Records
-    fields = ('heading', 'content', 'preview',)
+    fields = ('heading', 'content', 'preview')
     success_url = reverse_lazy('record:record_list')
 
     def form_valid(self, form):
@@ -57,7 +59,7 @@ class RecordCreateView(CreateView):
 # Класс-контроллер для редактирования записи
 class RecordUpdateView(UpdateView):
     model = Records
-    fields = ('heading', 'content', 'preview',)
+    fields = ('heading', 'content', 'preview')
     success_url = reverse_lazy('record:record_list')
 
     def get_success_url(self):

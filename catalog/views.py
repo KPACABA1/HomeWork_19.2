@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView, TemplateView
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 
+from catalog.forms import ProductForm
 from catalog.models import Product
 
 
@@ -9,6 +11,31 @@ from catalog.models import Product
 # Класс-контроллер для вывода главной страницы
 class ProductListView(ListView):
     model = Product
+
+
+# Класс-контроллер для создания нового продукта
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:product_list')
+
+
+# Класс-контроллер для вывода информации об отдельном продукте
+class ProductDetailView(DetailView):
+    model = Product
+
+
+# Класс-контроллер для редактирования продукта
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:product_list')
+
+
+# Класс-контроллер для удаления продукта
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('catalog:product_list')
 
 
 # Класс-контроллер для вывода станицы с контактами
@@ -23,8 +50,3 @@ class ContactsTemplateView(TemplateView):
             message = request.POST.get('message')
             print(f'Имя -{name}, телефон - {phone}, сообщение - {message}')
         return render(request, 'contacts.html')
-
-
-# Класс-контроллер для вывода информации об отдельном продукте
-class ProductDetailView(DetailView):
-    model = Product
