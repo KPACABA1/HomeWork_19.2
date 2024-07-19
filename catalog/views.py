@@ -21,8 +21,6 @@ class ProductListView(ListView):
     # Метод для вывода названия версии если она активна
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        formset = inlineformset_factory(Product, Version, VersionForm, extra=1)
-        context_data['formset'] = formset()
         version = []
         version.append(Version.objects.get(product='1'))
         version_name = version[0].version_name
