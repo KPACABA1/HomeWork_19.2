@@ -8,66 +8,51 @@ from catalog.models import Product, Version
 
 
 # Create your views here.
-
-# Класс-контроллер для вывода главной страницы
 class ProductListView(ListView):
+    """Класс-контроллер для вывода главной страницы"""
     model = Product
 
-    # def get_queryset(self):
-    #     a = super().get_queryset()
-    #     Product.version = a
-    #     return Product.version
-
-    # Метод для вывода названия версии если она активна
     def get_context_data(self, **kwargs):
+        """Метод для вывода названия версии если она активна"""
         context_data = super().get_context_data(**kwargs)
         version = []
-        version.append(Version.objects.get(product='1'))
+        version.extend(Version.objects.get(product='1'))
         version_name = version[0].version_name
         context_data['version'] = version_name
         return context_data
 
 
-
-# Класс-контроллер для создания нового продукта
 class ProductCreateView(CreateView):
+    """Класс-контроллер для создания нового продукта"""
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
 
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        formset = inlineformset_factory(Product, Version, VersionForm, extra=1)
-        context_data['formset'] = formset()
-        return context_data
 
-
-# Класс-контроллер для вывода информации об отдельном продукте
 class ProductDetailView(DetailView):
+    """Класс-контроллер для вывода информации об отдельном продукте"""
     model = Product
 
 
-# Класс-контроллер для редактирования продукта
 class ProductUpdateView(UpdateView):
+    """Класс-контроллер для редактирования продукта"""
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
 
 
-
-
-# Класс-контроллер для удаления продукта
 class ProductDeleteView(DeleteView):
+    """Класс-контроллер для удаления продукта"""
     model = Product
     success_url = reverse_lazy('catalog:product_list')
 
 
-# Класс-контроллер для вывода станицы с контактами
 class ContactsTemplateView(TemplateView):
+    """Класс-контроллер для вывода станицы с контактами"""
     template_name = 'contacts.html'
 
-    # Метод получения информации со страницы контакты
     def post(self, request):
+        """Метод получения информации со страницы контакты"""
         if request.method == 'POST':
             name = request.POST.get('name')
             phone = request.POST.get('phone')
