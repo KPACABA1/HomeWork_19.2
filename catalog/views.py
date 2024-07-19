@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 
-from catalog.forms import ProductForm
+from catalog.forms import ProductForm, VersionForm
 from catalog.models import Product, Version
 
 
@@ -13,11 +13,22 @@ from catalog.models import Product, Version
 class ProductListView(ListView):
     model = Product
 
+    # def get_queryset(self):
+    #     a = super().get_queryset()
+    #     Product.version = a
+    #     return Product.version
+
+    # Метод для вывода названия версии если она активна
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        a = inlineformset_factory(Product, Version)
-        context_data['formset'] = a()
+        formset = inlineformset_factory(Product, Version, VersionForm, extra=1)
+        context_data['formset'] = formset()
+        version = []
+        version.append(Version.objects.get(product='1'))
+        version_name = version[0].version_name
+        context_data['version'] = version_name
         return context_data
+
 
 
 # Класс-контроллер для создания нового продукта
@@ -25,6 +36,12 @@ class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        formset = inlineformset_factory(Product, Version, VersionForm, extra=1)
+        context_data['formset'] = formset()
+        return context_data
 
 
 # Класс-контроллер для вывода информации об отдельном продукте
@@ -37,6 +54,8 @@ class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
+
+
 
 
 # Класс-контроллер для удаления продукта

@@ -59,7 +59,7 @@ class Product(models.Model):
     )
 
     def __str__(self):
-        return f"{self.name} - {self.purchase_price}"
+        return f"{self.name}"
 
     class Meta:
         verbose_name = "Продукт"
@@ -91,7 +91,7 @@ class Version(models.Model):
         )
 
     def __str__(self):
-        return f"{self.version_name} - {self.version_number}"
+        return f"{self.version_name} - {self.version_number}, {self.product}, {self.indicates_current_version}"
 
     class Meta:
         verbose_name = "Версия"
