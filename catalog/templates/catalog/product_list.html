@@ -14,9 +14,13 @@
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                     <li>{{ product.category }}</li>
                     <li>{{ product.description | truncatechars:100 }}</li>
-                    <li>{{ product.pk }}</li>
-                    <li>{{ product.description | truncatechars:100 }}</li>
-                    <li>{{ version }}
+                    <li>
+                        {% for v in versions.items %}
+                            {% if v.0 == product.pk %}
+                                {{ v.1 }}
+                            {% endif %}
+                        {% endfor %}
+                    </li>
                 </ul>
                 <a class="p-2 btn btn-outline-primary">Купить</a>
                 <a class="p-2 btn btn-outline-primary" href="/info_product/{{ product.id }}/">О товаре</a>
@@ -29,4 +33,4 @@
     <p>
         <a class="p-2 btn btn-outline-primary" href="/create/">Создать новый продукт</a>
     </p>
-    {% endblock %}
+{% endblock %}

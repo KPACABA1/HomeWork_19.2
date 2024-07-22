@@ -1,26 +1,35 @@
 {% extends 'catalog/basic_template.html' %}
 {% load my_tags %}
 {% block content %}
-<div class="row text-center">
-    <div class="col-4">
-        <div class="card mb-4 box-shadow">
-            <div class="card-header">
-            </div>
-            <div class="card-body">
-                <form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data">
+    <div class="row text-center">
+        <div class="col-6">
+            <div class="card mb-4 box-shadow">
+                <div class="card-body">
                     {% csrf_token %}
                     {{ form.as_p}}
                     {{ formset.management_form }}
-                    <button type="submit" class="btn btn-success">
-                        {% if object %}
-                        сохранить
-                        {% else %}
-                        Создать
-                        {% endif %}
-                    </button>
-                </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    {{ formset.management_form }}
+                    {% for form in formset.forms %}
+                    {{ form.as_p}}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <button type="submit" class="btn btn-success">
+        {% if object %}
+        сохранить
+        {% else %}
+        Создать
+        {% endif %}
+    </button>
+</form>
+
 {% endblock %}
