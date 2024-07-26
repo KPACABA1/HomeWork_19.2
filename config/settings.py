@@ -42,10 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    # Мои приложения
     'catalog',
     'record',
     'users',
+    # Приложение которое я установил для работы с номерами
     'phonenumber_field'
 ]
 
@@ -146,3 +147,6 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = mail
 EMAIL_HOST_PASSWORD = password_mail
+
+# Настройка для работы с пользователями
+AUTH_USER_MODEL = 'users.User'
