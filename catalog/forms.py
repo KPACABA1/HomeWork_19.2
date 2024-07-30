@@ -19,7 +19,7 @@ class ProductForm(StyleFormMixin, ModelForm):
     """Класс форма для продуктов"""
     class Meta:
         model = Product
-        exclude = ('created_at', 'updated_at',)
+        exclude = ('created_at', 'updated_at', 'author')
 
     def clean_name(self):
         """Метод для фильтрования слов"""

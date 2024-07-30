@@ -140,6 +140,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Настройки для почты где mail и password_mail указаны мной в env(моя почта и пароль от приложения почты). Я использую
+# Яндекс почту
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
@@ -148,5 +150,13 @@ EMAIL_USE_SSL = True
 EMAIL_HOST_USER = mail
 EMAIL_HOST_PASSWORD = password_mail
 
+# Дополнительные настройки для получения писем об ошибках сайта
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 # Настройка для работы с пользователями
 AUTH_USER_MODEL = 'users.User'
+
+# Перенаправление пользователя после успешной авторизации и в случае выхода на главную страницу
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

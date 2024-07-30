@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -28,11 +29,23 @@ class ProductListView(ListView):
         return context_data
 
 
-class ProductCreateView(CreateView):
-    """Класс-контроллер для создания нового продукта"""
+class ProductCreateView(LoginRequiredMixin, CreateView):
+    """Класс-контроллер для создания нового продукта с ограничением на неавторизованных пользователей"""
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
+
+    # Настройки для работы LoginRequiredMixin, если пользователь не авторизованы его перекинет на страницу входа
+    login_url = "/user/login/"
+    redirect_field_name = "/"
+
+    def form_valid(self, form):
+        """Метод, который при создании записи авторизованным пользователем сразу присваивает этой записи его имя"""
+        product = form.save()
+        user = self.request.user
+        product.author = user
+        product.save()
+        return super().form_valid(form)
 
 
 class ProductDetailView(DetailView):
@@ -40,11 +53,15 @@ class ProductDetailView(DetailView):
     model = Product
 
 
-class ProductUpdateView(UpdateView):
-    """Класс-контроллер для редактирования продукта"""
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
+    """Класс-контроллер для редактирования продукта с ограничением на неавторизованных пользователей"""
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
+
+    # Настройки для работы LoginRequiredMixin, если пользователь не авторизован его перекинет на страницу входа
+    login_url = "/user/login/"
+    redirect_field_name = "/"
 
     def get_context_data(self, **kwargs):
         """Метод для вывода формы версии при редактировании продукта"""
@@ -66,10 +83,14 @@ class ProductUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class ProductDeleteView(DeleteView):
-    """Класс-контроллер для удаления продукта"""
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
+    """Класс-контроллер для удаления продукта с ограничением на неавторизованных пользователей"""
     model = Product
     success_url = reverse_lazy('catalog:product_list')
+
+    # Настройки для работы LoginRequiredMixin, если пользователь не авторизован его перекинет на страницу входа
+    login_url = "/user/login/"
+    redirect_field_name = "/"
 
 
 class ContactsTemplateView(TemplateView):

@@ -14,6 +14,7 @@
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                     <li>{{ product.category }}</li>
                     <li>{{ product.description | truncatechars:100 }}</li>
+                    <li>Автор - {{ product.author }}</li>
                     <li>
                         {% for v in versions.items %}
                             {% if v.0 == product.pk %}
