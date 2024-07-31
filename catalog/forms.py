@@ -55,28 +55,28 @@ class VersionForm(StyleFormMixin, ModelForm):
         model = Version
         fields = '__all__'
 
-    def clean(self):
-        """Клин метод для проверки того, что при редактировании продукта пользователь выбрал активной версией только
-        одну версию"""
-        cleaned_data = super().clean()
-        # получаем из формы значение поля indicates_current_version
-        indicates_current_version = cleaned_data.get('indicates_current_version')
-        # поулчаем связанный продукт версии
-        product = self.instance.product
-
-        if indicates_current_version:
-            # Проверяем, есть ли уже активная версия
-            if < существует версия, которая связана с продуктом и имеет признак активной версии >:
-                raise forms.ValidationError(cleaned_data)
-        return cleaned_data
-
-
-        # cleaned_data = super().clean()
-        # indicates_current_version = cleaned_data.get('indicates_current_version')
-        # # product = self.instance.product
-        # # if indicates_current_version:
-        # #     if
-        # print(indicates_current_version)
-        # print('5555555555555')
-
-        return cleaned_data
+    # def clean(self):
+    #     """Клин метод для проверки того, что при редактировании продукта пользователь выбрал активной версией только
+    #     одну версию"""
+    #     cleaned_data = super().clean()
+    #     # получаем из формы значение поля indicates_current_version
+    #     indicates_current_version = cleaned_data.get('indicates_current_version')
+    #     # поулчаем связанный продукт версии
+    #     product = self.instance.product
+    #
+    #     if indicates_current_version:
+    #         # Проверяем, есть ли уже активная версия
+    #         if < существует версия, которая связана с продуктом и имеет признак активной версии >:
+    #             raise forms.ValidationError(cleaned_data)
+    #     return cleaned_data
+    #
+    #
+    #     # cleaned_data = super().clean()
+    #     # indicates_current_version = cleaned_data.get('indicates_current_version')
+    #     # # product = self.instance.product
+    #     # # if indicates_current_version:
+    #     # #     if
+    #     # print(indicates_current_version)
+    #     # print('5555555555555')
+    #
+    #     return cleaned_data

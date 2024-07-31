@@ -4,10 +4,10 @@ import string
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, UpdateView
 
 from env.data import mail
-from users.forms import UsersRegisterForm
+from users.forms import UsersRegisterForm, EditingProfileForm
 from users.models import User
 
 # Импортирую библиотеку секретов
@@ -90,3 +90,15 @@ class ResetTemplateView(TemplateView):
                       from_email=mail,
                       recipient_list=[email], )
         return render(request, 'contacts.html')
+
+
+class ProfileView(UpdateView):
+    """Класс для редактирования профиля пользователя"""
+    model = User
+    form_class = EditingProfileForm
+    success_url = reverse_lazy('users:profile')
+    template_name = 'users/editing_profile.html'
+
+    def get_object(self, queryset=None):
+        """Метод для определения какому пользователю мы будем редактировать профиль"""
+        return self.request.user
