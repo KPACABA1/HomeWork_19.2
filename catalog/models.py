@@ -24,11 +24,9 @@ class Product(models.Model):
     name = models.CharField(
         max_length=50,
         verbose_name="Наименование",
-        help_text="Наименование продукта",
     )
     description = models.TextField(
         verbose_name="Описание",
-        help_text="Описание продукта",
         null=True,
         blank=True,
     )
@@ -37,7 +35,6 @@ class Product(models.Model):
         verbose_name="Изображение(превью)",
         null=True,
         blank=True,
-        help_text="Изображение продукта",
     )
     category = models.ForeignKey(
         Category,
@@ -49,7 +46,6 @@ class Product(models.Model):
     )
     purchase_price = models.IntegerField(
         verbose_name="Цена за покупку",
-        help_text="Цена за покупку продукта",
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -62,12 +58,22 @@ class Product(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, verbose_name='Автор', null=True, blank=True,
                                related_name='users',)
 
+    sign_publication_product = models.BooleanField(default=False, verbose_name='Признак публикации продукта',)
+
     def __str__(self):
         return f"{self.name}"
 
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
+
+        # Кастомные команды для группы модераторов. Они могут: отменять публикацию продукта, менять описание любого
+        # продукта и менять категорию любого продукта
+        permissions = [
+            ('may_cancel_publication_product', 'may cancel publication product'),
+            ('can_change_description_product', 'can change description product'),
+            ('can_change_category_product', 'can change category product')
+        ]
 
 
 class Version(models.Model):

@@ -1,10 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 
-from catalog.forms import ProductForm, VersionForm
+from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
 from catalog.models import Product, Version
 
 
@@ -81,6 +82,23 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             formset.instance = self.object
             formset.save()
         return super().form_valid(form)
+
+    def get_form_class(self):
+        """Метод для определения какую форму использовать при редактировании продукта в зависимости от прав доступа"""
+
+        # Получаю данные о пользователе
+        user = self.request.user
+
+        # Если пользователь владелец, то он может редактировать свой продукт в максимальном объеме
+        if user == self.object.author:
+            return ProductForm
+
+        # Если пользователь модератор, то он может редактировать продукт в соответствии со своими полномочиями
+        if user.has_perm('catalog.may_cancel_publication_product') and user.has_perm('catalog.can_change_description_product') and user.has_perm('catalog.can_change_category_product'):
+            return ProductModeratorForm
+
+        # Если нет никаких прав на изменение данного продукта, то вызываем ошибку
+        raise PermissionDenied
 
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):

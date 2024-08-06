@@ -19,10 +19,10 @@ class ProductForm(StyleFormMixin, ModelForm):
     """Класс форма для продуктов"""
     class Meta:
         model = Product
-        exclude = ('created_at', 'updated_at', 'author')
+        exclude = ('created_at', 'updated_at', 'author', 'sign_publication_product')
 
     def clean_name(self):
-        """Метод для фильтрования слов"""
+        """Метод для фильтрации названия продукта от запрещённых слов"""
         cleaned_data = self.cleaned_data['name']
 
         # Кортеж запрещенных слов
@@ -36,6 +36,28 @@ class ProductForm(StyleFormMixin, ModelForm):
         return cleaned_data
 
     def clean_description(self):
+        """Метод для фильтрации описания продукта от запрещённых слов"""
+        cleaned_data = self.cleaned_data['description']
+
+        # Кортеж запрещенных слов
+        forbidden_words = ('казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция',
+                           'радар')
+
+        # Проверю есть ли в названии запрещенные слова
+        if cleaned_data in forbidden_words:
+            raise forms.ValidationError('В описании продукта есть запрещённое слово')
+
+        return cleaned_data
+
+
+class ProductModeratorForm(StyleFormMixin, ModelForm):
+    """Класс форма для группы модераторов продуктов"""
+    class Meta:
+        model = Product
+        fields = ('sign_publication_product', 'description', 'category',)
+
+    def clean_description(self):
+        """Метод для того, чтобы модератор при изменении описания продукта не добавил в него запрещённые слова"""
         cleaned_data = self.cleaned_data['description']
 
         # Кортеж запрещенных слов
