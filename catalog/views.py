@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 
-from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
+from catalog.forms import ProductForm, VersionForm, ProductModeratorForm, VersionFormset
 from catalog.models import Product, Version
 
 
@@ -67,7 +67,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         """Метод для вывода формы версии при редактировании продукта"""
         context_data = super().get_context_data(**kwargs)
-        ProductFormset = inlineformset_factory(Product, Version, VersionForm, extra=1)
+        ProductFormset = inlineformset_factory(Product, Version, VersionForm, formset=VersionFormset, extra=1)
         if self.request.method == 'POST':
             context_data['formset'] = ProductFormset(self.request.POST, instance=self.object)
         else:
@@ -81,6 +81,8 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         if formset.is_valid():
             formset.instance = self.object
             formset.save()
+        else:
+            return super().form_invalid(form)
         return super().form_valid(form)
 
     def get_form_class(self):

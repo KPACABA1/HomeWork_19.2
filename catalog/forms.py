@@ -1,4 +1,4 @@
-from django.forms import ModelForm, forms, BooleanField
+from django.forms import ModelForm, forms, BooleanField, BaseInlineFormSet
 
 from catalog.models import Product, Version
 
@@ -77,17 +77,13 @@ class VersionForm(StyleFormMixin, ModelForm):
         model = Version
         fields = '__all__'
 
-    def clean(self):
-        """Клин метод для проверки того, что при редактировании продукта пользователь выбрал активной версией только
-        одну версию"""
-        cleaned_data = super().clean()
-        # получаем из формы значение поля indicates_current_version
-        indicates_current_version = cleaned_data.get('indicates_current_version')
-        # получаем связанный продукт версии
-        product = self.instance.product
 
-        # Проверяем была ли активна другая версия и если она была активна, то вызываем ошибку
-        if indicates_current_version:
-            if Version.objects.filter(product=product, indicates_current_version=True).exists():
-                raise forms.ValidationError(cleaned_data)
-        return cleaned_data
+class VersionFormset(BaseInlineFormSet):
+    def clean(self):
+        super().clean()
+        count = 0
+        for form in self.forms:
+            if form.instance.indicates_current_version:
+                count += 1
+        if count > 1:
+            raise forms.ValidationError("Может быть только 1 активная версия")
