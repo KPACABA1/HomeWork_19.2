@@ -5,12 +5,18 @@ import json
 
 from catalog.models import Category, Product
 
+# Импортирую данные для входа в базу данных
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
 
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # Создаю подключение к базе данных
-        with psycopg2.connect(database='homework_20_1', user='postgres', password='mr34mr58') as conn:
+        with psycopg2.connect(database=os.getenv('name_database'), user=os.getenv('user_database'),
+                              password=os.getenv('password_database')) as conn:
             with conn.cursor() as cur:
 
                 # Удаляю данные из таблицы Category и Product

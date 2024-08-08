@@ -41,7 +41,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     redirect_field_name = "/"
 
     def form_valid(self, form):
-        """Метод, который при создании записи авторизованным пользователем сразу присваивает этой записи его имя"""
+        """Метод, который при создании продукта авторизованным пользователем сразу присваивает этому продукту его имя"""
         product = form.save()
         user = self.request.user
         product.author = user

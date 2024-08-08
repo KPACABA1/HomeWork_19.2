@@ -12,9 +12,12 @@
                 <img src="{{ record.preview | media_filter }}" width="220" height="190">
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                     <li>{{ record.content }}</li>
+                    <li>{{ record.author }}</li>
                 </ul>
                 <a class="p-2 btn btn-outline-primary" href="{% url 'record:view' record.pk %}">Посмотреть</a>
-                <a class="p-2 btn btn-outline-primary" href="{% url 'record:edit' record.pk %}">Редактировать</a>
+                {% if perms.record.may_cancel_publication_record or user == record.author %}
+                    <a class="p-2 btn btn-outline-primary" href="{% url 'record:edit' record.pk %}">Редактировать</a>
+                {% endif %}
                 <a class="p-2 btn btn-outline-primary" href="{% url 'record:delete' record.pk %}">Удалить</a>
             </div>
         </div>

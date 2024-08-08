@@ -13,7 +13,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 
 # Импортирую данные для входа в почту и данные для входа в базу данных
-from env.data import mail, password_mail, name_database, password_database, user_database
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 
 
@@ -87,9 +89,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': name_database,
-        'USER': user_database,
-        'PASSWORD': password_database
+        'NAME': os.getenv('name_database'),
+        'USER': os.getenv('user_database'),
+        'PASSWORD': os.getenv('password_database')
     }
 }
 
@@ -140,15 +142,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Настройки для почты где mail и password_mail указаны мной в env(моя почта и пароль от приложения почты). Я использую
+# Настройки для почты где mail и password_mail указаны мной в .env(моя почта и пароль от приложения почты). Я использую
 # Яндекс почту
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-EMAIL_HOST_USER = mail
-EMAIL_HOST_PASSWORD = password_mail
+EMAIL_HOST_USER = os.getenv('mail')
+EMAIL_HOST_PASSWORD = os.getenv('password_mail')
 
 # Дополнительные настройки для получения писем об ошибках сайта
 SERVER_EMAIL = EMAIL_HOST_USER

@@ -6,7 +6,12 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, TemplateView, UpdateView
 
-from env.data import mail
+# Импортирую свою почту
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 from users.forms import UsersRegisterForm, EditingProfileForm
 from users.models import User
 
@@ -39,8 +44,8 @@ class UserCreateView(CreateView):
         send_mail(subject='Подтверждение почты',
                   message=f'Здравствуйте, чтобы подтвердить свою почту перейдите по ссылке {url}',
                   # Импортирую свою почту из env
-                  from_email=mail,
-                  recipient_list=[user.email],)
+                  from_email=os.getenv('mail'),
+                  recipient_list=[user.email], )
         return super().form_valid(form)
 
 
