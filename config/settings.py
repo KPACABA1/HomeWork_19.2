@@ -18,7 +18,6 @@ import os
 load_dotenv()
 
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,10 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$zs_i6_12a(!ndq-fx^)*q@o(+vg1+r5@+jcba92kp8#woekqm'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -144,11 +143,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Настройки для почты где mail и password_mail указаны мной в .env(моя почта и пароль от приложения почты). Я использую
 # Яндекс почту
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 465
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', False) == 'True'
+EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', False) == 'True'
 EMAIL_HOST_USER = os.getenv('mail')
 EMAIL_HOST_PASSWORD = os.getenv('password_mail')
 
@@ -162,3 +161,13 @@ AUTH_USER_MODEL = 'users.User'
 # Перенаправление пользователя после успешной авторизации и в случае выхода на главную страницу
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# Настройка для кэша
+CACHE_ENABLED = os.getenv('CACHE_ENABLED')
+if CACHE_ENABLED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": os.getenv('LOCATION'),
+        }
+    }

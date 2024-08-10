@@ -9,3 +9,4 @@ ipython==8.25.0
 pytils==0.4.1
 django-phonenumber-field[phonenumberslite]
 python-dotenv
+redis

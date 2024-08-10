@@ -6,7 +6,8 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 
 from catalog.forms import ProductForm, VersionForm, ProductModeratorForm, VersionFormset
-from catalog.models import Product, Version
+from catalog.models import Product, Version, Category
+from catalog.services import get_products_from_cache, get_category_from_cache
 
 
 # Create your views here.
@@ -28,6 +29,10 @@ class ProductListView(ListView):
                         version_dict[version.product_id] = version.version_name
         context_data['versions'] = version_dict
         return context_data
+
+    def get_queryset(self):
+        """Метод для получения кэша всех продуктов"""
+        return get_products_from_cache()
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -111,6 +116,15 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     # Настройки для работы LoginRequiredMixin, если пользователь не авторизован его перекинет на страницу входа
     login_url = "/user/login/"
     redirect_field_name = "/"
+
+
+class CategoryListView(ListView):
+    """Класс-контроллер для вывода всех категорий в магазине"""
+    model = Category
+
+    def get_queryset(self):
+        """Метод для получения кэша всех категорий"""
+        return get_category_from_cache()
 
 
 class ContactsTemplateView(TemplateView):

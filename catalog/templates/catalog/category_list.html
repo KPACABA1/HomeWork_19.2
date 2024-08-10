@@ -1,0 +1,18 @@
+{% extends 'catalog/basic_template.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="row text-center">
+    {% for category in object_list %}
+    <div class="col-3">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">{{ category.name }}</h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">{{ category.description }}</h1>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
