@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = os.getenv('DEBUG', False) == 'True'
 
 ALLOWED_HOSTS = ['*']
 
@@ -162,9 +162,18 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-# Настройка для кэша
-CACHE_ENABLED = os.getenv('CACHE_ENABLED')
-if CACHE_ENABLED:
+# Настройка для кэширования всего сайта
+CACHE_ENABLED_ENTIRE_SITE = os.getenv('CACHE_ENABLED_ENTIRE_SITE', False) == 'True'
+# if CACHE_ENABLED_ENTIRE_SITE:
+#     MIDDLEWARE = [
+#         "django.middleware.cache.UpdateCacheMiddleware",
+#         ...
+#         "django.middleware.cache.FetchFromCacheMiddleware",
+#     ]
+
+# Настройка для низкоуровневого и кэширования контроллеров
+CACHE_ENABLED = os.getenv('CACHE_ENABLED', False) == 'True'
+if CACHE_ENABLED or CACHE_ENABLED_ENTIRE_SITE:
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
