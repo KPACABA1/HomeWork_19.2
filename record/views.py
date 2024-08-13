@@ -25,8 +25,8 @@ class RecordListView(ListView):
         return queryset
 
 
-# Класс-контроллер для детального просмотра записи
 class RecordDetailView(DetailView):
+    """Класс-контроллер для детального просмотра записи"""
     model = Records
 
     @staticmethod
