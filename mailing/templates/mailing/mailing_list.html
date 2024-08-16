@@ -1,0 +1,28 @@
+{% extends 'catalog/basic_template.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="row text-center">
+    {% for mailing in object_list %}
+    <div class="col-3">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">{{ mailing.name }}</h4>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                    <li>{{ mailing.date_and_time_of_first_mailing }}</li>
+                    <li>{{ mailing.frequency }}</li>
+                    <li>{{ mailing.mailing_status }}</li>
+                    <li>{{ mailing.message }}</li>
+                    <li>{{ mailing.customers_of_service }}</li>
+                </ul>
+                <a class="p-2 btn btn-outline-primary" href="/mailing/info_mailing/{{ mailing.id }}/">Посмотреть</a>
+                <a class="p-2 btn btn-outline-primary" href="/mailing/edit_mailing/{{ mailing.id }}/">Редактировать</a>
+                <a class="p-2 btn btn-outline-primary" href="/mailing/delete_mailing/{{ mailing.id }}/">Удалить</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+ <a class="p-2 btn btn-outline-primary" href="/mailing/create_mailing/">Создать новую рассылку</a>
+{% endblock %}

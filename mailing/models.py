@@ -31,7 +31,7 @@ class Customer(models.Model):
         verbose_name_plural = "Клиенты сервиса"
 
 
-class Frequency(models.Model):
+class Periodicity(models.Model):
     """Модель периодичности рассылки"""
     name = models.CharField(max_length=20, verbose_name="Периодичность рассылки")
 
@@ -45,10 +45,11 @@ class Frequency(models.Model):
 
 class Mailing(models.Model):
     """Модель рассылки"""
+    name = models.CharField(max_length=20, verbose_name='Название рассылки')
     date_and_time_of_first_mailing = models.DateTimeField(null=True, blank=True,
                                                           verbose_name='дата и время первой отправки рассылки')
-    frequency = models.ForeignKey(Frequency, on_delete=models.SET_NULL, verbose_name="Периодичность рассылки",
-                                  related_name="frequency_of_mailing", null=True, blank=True)
+    periodicity = models.ForeignKey(Periodicity, on_delete=models.SET_NULL, verbose_name="Периодичность рассылки",
+                                    related_name="periodicity", null=True, blank=True)
     mailing_status = models.CharField(max_length=20, default='создана', verbose_name='Статус рассылки')
     message = models.ForeignKey(Message, on_delete=models.SET_NULL, verbose_name="Сообщение рассылки",
                                 related_name="mailing_list_message", null=True, blank=True)
@@ -56,7 +57,7 @@ class Mailing(models.Model):
                                                   related_name="customers_of_service")
 
     def __str__(self):
-        return self.frequency
+        return self.periodicity
 
     class Meta:
         verbose_name = "Рассылка"

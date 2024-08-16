@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from mailing.models import Message, Customer, Frequency, Mailing
+from mailing.models import Message, Customer, Periodicity, Mailing
 
 
 # Register your models here.
@@ -16,8 +16,8 @@ class MessageForMailingAdmin(admin.ModelAdmin):
     list_display = ('id', 'last_name', 'contact_email',)
 
 
-@admin.register(Frequency)
-class FrequencyForMailingAdmin(admin.ModelAdmin):
+@admin.register(Periodicity)
+class PeriodicityAdmin(admin.ModelAdmin):
     """Админка для периодичности рассылки"""
     list_display = ('id', 'name',)
 
@@ -25,4 +25,4 @@ class FrequencyForMailingAdmin(admin.ModelAdmin):
 @admin.register(Mailing)
 class MailingForMailingAdmin(admin.ModelAdmin):
     """Админка для рассылок"""
-    list_display = ('id', 'mailing_status', 'frequency')
+    list_display = ('id', 'mailing_status', 'periodicity')

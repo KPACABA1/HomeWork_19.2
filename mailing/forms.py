@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 
 from catalog.forms import StyleFormMixin
-from mailing.models import Message, Customer
+from mailing.models import Message, Customer, Mailing
 
 
 class MessageForm(StyleFormMixin, ModelForm):
@@ -16,3 +16,10 @@ class CustomerForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Customer
         fields = '__all__'
+
+
+class MailingForm(StyleFormMixin, ModelForm):
+    """Класс форма для рассылок"""
+    class Meta:
+        model = Mailing
+        exclude = ('date_and_time_of_first_mailing', 'mailing_status')
